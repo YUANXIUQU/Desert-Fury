@@ -8,8 +8,9 @@ public class obstacle_movement : MonoBehaviour
     public float rotationspeed = 100f;
     public AudioSource die;
     public AudioSource pointsound;
-    public GameObject final_page;
+    public fail_trigger failtrigger;
 
+    public player_movement player_movement;
 
     // Update is called once per frame
     void Update()
@@ -25,10 +26,9 @@ public class obstacle_movement : MonoBehaviour
         {
             fail_trigger.ending = true;
             die.Play();
-            final_page.SetActive(true);
-            Time.timeScale = 0;
+            failtrigger.show_resultpage();
+            player_movement.player_die();
             delete();
-            
         }
 
         if (other.CompareTag("ob_gain_point")) // player avoid obs then gain points

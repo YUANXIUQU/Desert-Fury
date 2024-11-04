@@ -15,7 +15,7 @@ public class score : MonoBehaviour
         score_show.text = points.ToString();
         if (fail_trigger.ending)
         {
-            final_score_show.text = "you get " + score.points.ToString() + " !!!";
+            final_score_show.text = "You got " + score.points.ToString() + " !!!";
             Destroy(score_show);
         }
     }
