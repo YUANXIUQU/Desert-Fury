@@ -7,6 +7,8 @@ public class fail_trigger : MonoBehaviour
     Rigidbody2D rb;
     public GameObject final_page;
     public AudioSource die;
+
+    public cameraShake cameraShake;
     public player_movement player_movement;
     public static bool ending;
     void Start()
@@ -19,19 +21,14 @@ public class fail_trigger : MonoBehaviour
         if (other.CompareTag("enemy"))
         {
             ending = true;
+            cameraShake.GetComponent<cameraShake>().ShakeCamera(2, 0.5f);
             die.Play();
             player_movement.player_die();
             other.enabled = false;
             Destroy(other.gameObject);
-            show_resultpage();
+            final_page.SetActive(true); 
 
         }
-    }
-
-
-    public void show_resultpage()
-    {
-        final_page.SetActive(true);
     }
 
 }

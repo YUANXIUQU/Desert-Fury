@@ -6,6 +6,7 @@ TagManager:
   tags:
   - enemy
   - ob_gain_point
+  - ground
   layers:
   - Default
   - TransparentFX

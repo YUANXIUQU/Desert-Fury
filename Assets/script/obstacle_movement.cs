@@ -8,8 +8,8 @@ public class obstacle_movement : MonoBehaviour
     public float rotationspeed = 100f;
     public AudioSource die;
     public AudioSource pointsound;
-    public fail_trigger failtrigger;
-
+    public GameObject final_page;
+    public cameraShake cameraShake;
     public player_movement player_movement;
 
     // Update is called once per frame
@@ -22,11 +22,12 @@ public class obstacle_movement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // player collides with obstacles then lose
+        if (other.CompareTag("Player")) // player collides with obstacles then fails
         {
             fail_trigger.ending = true;
+            cameraShake.GetComponent<cameraShake>().ShakeCamera(2, 0.5f);
             die.Play();
-            failtrigger.show_resultpage();
+            final_page.SetActive(true);
             player_movement.player_die();
             delete();
         }
