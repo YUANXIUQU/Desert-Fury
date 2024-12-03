@@ -11,6 +11,7 @@ public class obstacle_movement : MonoBehaviour
     public GameObject final_page;
     public cameraShake cameraShake;
     public player_movement player_movement;
+    public GameObject gainScore;
 
     // Update is called once per frame
     void Update()
@@ -34,9 +35,8 @@ public class obstacle_movement : MonoBehaviour
 
         if (other.CompareTag("ob_gain_point")) // player avoid obs then gain points
         {
-            score.points += 10;
-            pointsound.Play();
-            delete();
+            gainScore.SetActive(true);
+            StartCoroutine(delay());
         }
     }
 
@@ -47,5 +47,13 @@ public class obstacle_movement : MonoBehaviour
         this.enabled = false;
     }
 
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(1.0f);
+        score.points += 10;
+        pointsound.Play();
+        gainScore.SetActive(false);
+        
+    }
 
 }

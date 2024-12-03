@@ -12,6 +12,7 @@ public class player_movement : MonoBehaviour
     public GameObject spawn_enemies;
     public GameObject spawn_obstacles;
     public GameObject fail_trigger;
+    public GameObject gainScore;
 
     public AudioSource attacksound;
     public AudioSource jump;
@@ -25,7 +26,6 @@ public class player_movement : MonoBehaviour
     public bool isgrounded = false;
 
     public Transform attackpoint;
-    
     public LayerMask enemyLayers;
     void Start()
     {
@@ -41,16 +41,16 @@ public class player_movement : MonoBehaviour
                 animator.SetTrigger("attack1");
                 Collider2D[] hitenemies = Physics2D.OverlapCircleAll(attackpoint.position
                     , attackrange, enemyLayers);
-                foreach (Collider2D enemy in hitenemies)
+                foreach (Collider2D enemy in hitenemies)// hit enemy, gain points 15.
                 {
                     attacksound.Play();
                     enemy.GetComponent<enemy_movement>().damage();
                     enemy.GetComponent<Collider2D>().enabled = false;
                     enemy.enabled = false;
                     StartCoroutine(DestroyAfterDelay(enemy.gameObject, 0.25f));
-                    score.points += 15;
-                    pointsound.Play();
-                    
+                    gainScore.SetActive(true);
+                    StartCoroutine(delay()); //dalay for add_scores anim playing
+
                 }
                 nextattacktime = Time.time + attackrate;
             }
@@ -75,12 +75,18 @@ public class player_movement : MonoBehaviour
             isgrounded = true;
         }
     }
-
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(1.0f);
+        score.points += 15;
+        pointsound.Play();
+        gainScore.SetActive(false);
+    }
     IEnumerator DestroyAfterDelay(GameObject enemy, float delay)
     {
         yield return new WaitForSeconds(delay);
         Destroy(enemy);
-
+        
     }
 
     public void player_die() //player die animation ; disenable spawns of obs,enemy
